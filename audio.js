@@ -146,7 +146,7 @@ class AudioManager {
         if (!this.audioContext || !this.bgmEnabled) return;
 
         try {
-            const response = await fetch('assets/festival.mp3');
+            const response = await fetch('assets/spring-festival.mp3');
             const arrayBuffer = await response.arrayBuffer();
             const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
 
