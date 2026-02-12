@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>金马踏春·2026</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 主菜单 -->
+    <div id="main-menu" class="menu-container">
+        <div class="menu-content">
+            <h1 class="menu-title">🐴 金马踏春·2026 🧧</h1>
+            <p class="menu-subtitle">马走日·扫雷·收福气</p>
+            <div class="menu-buttons">
+                <button id="start-game-btn" class="menu-btn menu-btn-primary">开始游戏</button>
+                <button id="select-level-btn" class="menu-btn">选择关卡</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 关卡选择界面 -->
+    <div id="level-select" class="menu-container" style="display: none;">
+        <div class="menu-content">
+            <h2 class="menu-title">选择关卡</h2>
+            <div id="level-grid" class="level-grid"></div>
+            <button id="back-to-menu-btn" class="menu-btn">返回主菜单</button>
+        </div>
+    </div>
+
+    <div id="game-container" style="display: none;">
+        <!-- 游戏标题 -->
+        <div id="game-header">
+            <h1>🐴 金马踏春·2026 🧧</h1>
+            <div id="game-info">
+                <span>关卡: <span id="level-num">1</span></span>
+                <span>步数: <span id="steps">0</span></span>
+                <span>福气: <span id="score">0</span>/<span id="total-score">0</span></span>
+                <span>生命: <span id="health-display"></span></span>
+                <span>地雷: <span id="mines-left">0</span></span>
+            </div>
+        </div>
+
+        <!-- 音乐控制 -->
+        <div id="audio-controls">
+            <button id="bgm-toggle" class="audio-btn" title="背景音乐">🎵</button>
+            <button id="sfx-toggle" class="audio-btn" title="音效">🔔</button>
+            <!-- 音频频谱可视化 -->
+            <div id="audio-visualizer">
+                <canvas id="waveform-canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- 背景音乐控制面板 -->
+        <div id="bgm-panel" class="audio-panel">
+            <div class="panel-header">🎵 背景音乐</div>
+            <div class="panel-content">
+                <label class="switch-control">
+                    <span>启用</span>
+                    <input type="checkbox" id="bgm-enable" checked>
+                    <span class="switch-slider"></span>
+                </label>
+                <div class="volume-control">
+                    <span class="volume-icon">🔊</span>
+                    <input type="range" id="bgm-volume" min="0" max="100" value="30" class="volume-slider">
+                    <span class="volume-value">30%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 音效控制面板 -->
+        <div id="sfx-panel" class="audio-panel">
+            <div class="panel-header">🔔 音效</div>
+            <div class="panel-content">
+                <label class="switch-control">
+                    <span>启用</span>
+                    <input type="checkbox" id="sfx-enable" checked>
+                    <span class="switch-slider"></span>
+                </label>
+                <div class="volume-control">
+                    <span class="volume-icon">🔊</span>
+                    <input type="range" id="sfx-volume" min="0" max="100" value="50" class="volume-slider">
+                    <span class="volume-value">50%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏画布 -->
+        <div id="game-board"></div>
+
+        <!-- 控制按钮 -->
+        <div id="game-controls">
+            <button id="menu-btn" class="btn">📋 菜单</button>
+            <button id="undo-btn" class="btn">↶ 撤销</button>
+            <button id="restart-btn" class="btn">🔄 重新开始</button>
+            <button id="hint-btn" class="btn">💡 提示</button>
+        </div>
+
+        <!-- 游戏提示信息 -->
+        <div id="game-message"></div>
+    </div>
+
+    <!-- 通关弹窗 -->
+    <div id="victory-modal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 马到成功！🎉</h2>
+            <p id="victory-text"></p>
+            <button id="next-level-btn" class="btn btn-primary">下一关</button>
+        </div>
+    </div>
+
+    <script src="particles.js"></script>
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
