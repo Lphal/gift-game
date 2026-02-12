@@ -726,6 +726,8 @@ class Game {
             this.render();
             document.getElementById('victory-modal').style.display = 'none';
         } else {
+            // 最后一关，关闭弹窗并显示祝贺消息
+            document.getElementById('victory-modal').style.display = 'none';
             this.showMessage("🎉 恭喜通关所有关卡！", "success");
         }
     }
@@ -734,7 +736,14 @@ class Game {
     victory() {
         const modal = document.getElementById('victory-modal');
         const text = document.getElementById('victory-text');
-        text.textContent = `用了 ${this.steps} 步完成关卡！`;
+
+        // 检查是否是最后一关
+        if (this.currentLevel === LEVELS.length - 1) {
+            text.textContent = `🎊 恭喜通过所有关卡！\n用了 ${this.steps} 步完成最后一关！`;
+        } else {
+            text.textContent = `用了 ${this.steps} 步完成关卡！`;
+        }
+
         modal.style.display = 'flex';
         window.audioManager.playVictorySound();
 
