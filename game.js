@@ -1145,7 +1145,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // 保存当前关卡
         localStorage.setItem('lastLevel', levelIndex.toString());
 
-        // 开始播放音乐
+        // 进入游戏界面时开始播放音乐
         if (window.audioManager && window.audioManager.bgmEnabled) {
             window.audioManager.loadAndPlayBGM();
         }

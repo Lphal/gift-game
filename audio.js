@@ -37,9 +37,7 @@ class AudioManager {
             if (!this.audioContext) {
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 this.setupAudioNodes();
-                if (this.bgmEnabled) {
-                    this.loadAndPlayBGM();
-                }
+                // 不在这里自动播放音乐，等待游戏开始时再播放
                 this.startVisualization();
             }
         }, { once: true });
