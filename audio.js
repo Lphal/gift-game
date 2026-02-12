@@ -152,7 +152,7 @@ class AudioManager {
 
             this.playBGM(audioBuffer);
         } catch (error) {
-            console.warn('无法加载背景音乐文件，使用合成音乐作为备选');
+            console.warn('无法加载背景音乐文件，使用合成音乐作为备选', error);
             this.playFallbackBGM();
         }
     }
@@ -176,6 +176,14 @@ class AudioManager {
         this.bgmSource.loop = true;
         this.bgmSource.connect(this.bgmGainNode);
         this.bgmSource.start(0);
+
+        // 强制更新 canvas 尺寸
+        this.resizeCanvas();
+
+        // 确保可视化正在运行
+        if (!this.animationId) {
+            this.startVisualization();
+        }
     }
 
     // 备选：使用合成音乐（当MP3文件加载失败时）

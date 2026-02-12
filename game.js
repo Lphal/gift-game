@@ -571,7 +571,14 @@ class Game {
         // 检查是否是有效移动
         const isValid = this.validMoves.some(move => move.x === newX && move.y === newY);
         if (!isValid) {
-            this.showMessage("❌ 马不能这样走哦！", "error");
+            // 检查是否点击了障碍物
+            if (newY >= 0 && newY < this.grid.length &&
+                newX >= 0 && newX < this.grid[newY].length &&
+                this.grid[newY][newX] === TILE_TYPES.OBSTACLE) {
+                this.showMessage("🪨 哎呀！前方一块大石头", "error");
+            } else {
+                this.showMessage('❌ 马只能按"日"字走哦！', "error");
+            }
             window.audioManager.playErrorSound();
 
             // 添加震动效果
@@ -1146,8 +1153,17 @@ window.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('lastLevel', levelIndex.toString());
 
         // 进入游戏界面时开始播放音乐
-        if (window.audioManager && window.audioManager.bgmEnabled) {
-            window.audioManager.loadAndPlayBGM();
+        if (window.audioManager) {
+            // 确保 AudioContext 已初始化
+            if (!window.audioManager.audioContext) {
+                window.audioManager.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                window.audioManager.setupAudioNodes();
+                window.audioManager.startVisualization();
+            }
+            // 播放音乐
+            if (window.audioManager.bgmEnabled) {
+                window.audioManager.loadAndPlayBGM();
+            }
         }
     }
 
