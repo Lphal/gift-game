@@ -628,7 +628,12 @@ class Game {
             this.showMessage(`💥 踩到地雷！剩余生命: ${this.health}`, "error");
             window.audioManager.playErrorSound();
 
-            // 先渲染显示地雷
+            // 将地雷变成空地（爆炸后消失）
+            this.grid[newY][newX] = TILE_TYPES.EMPTY;
+            // 标记为已探索，这样会显示白色
+            this.opened[newY][newX] = true;
+
+            // 先渲染显示爆炸效果
             this.updateInfo();
             this.render();
 
