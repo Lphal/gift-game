@@ -55,6 +55,48 @@ class ParticleSystem {
         }
     }
 
+    // 创建地雷爆炸特效
+    createMineExplosion(x, y) {
+        const colors = ['#ff4757', '#ff6348', '#ffa502', '#2f3542', '#57606f'];
+        const particleCount = 30;
+
+        // 主爆炸波
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 * i) / particleCount;
+            const velocity = 3 + Math.random() * 5;
+
+            this.particles.push({
+                x: x,
+                y: y,
+                vx: Math.cos(angle) * velocity,
+                vy: Math.sin(angle) * velocity,
+                life: 1,
+                decay: 0.015,
+                size: 6 + Math.random() * 6,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                type: 'circle'
+            });
+        }
+
+        // 烟雾效果
+        for (let i = 0; i < 15; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 1 + Math.random() * 2;
+
+            this.particles.push({
+                x: x,
+                y: y,
+                vx: Math.cos(angle) * velocity,
+                vy: Math.sin(angle) * velocity - 1,
+                life: 1,
+                decay: 0.01,
+                size: 8 + Math.random() * 8,
+                color: 'rgba(100, 100, 100, 0.5)',
+                type: 'circle'
+            });
+        }
+    }
+
     // 创建移动轨迹粒子
     createTrailParticles(x, y) {
         const colors = ['#ffeaa7', '#fdcb6e', '#fab1a0'];

@@ -620,7 +620,7 @@ class Game {
 
         // 检查是否踩到地雷
         if (this.grid[newY][newX] === TILE_TYPES.MINE) {
-            // 踩到地雷时才揭示这个格子
+            // 踩到地雷时揭示这个格子
             this.revealed[newY][newX] = true;
 
             this.health--;
@@ -628,10 +628,15 @@ class Game {
             this.showMessage(`💥 踩到地雷！剩余生命: ${this.health}`, "error");
             window.audioManager.playErrorSound();
 
-            // 添加爆炸特效
-            if (cell) {
-                const pos = window.particleSystem.getElementCenter(cell);
-                window.particleSystem.createCollectExplosion(pos.x, pos.y);
+            // 先渲染显示地雷
+            this.updateInfo();
+            this.render();
+
+            // 添加地雷爆炸特效（从地雷格子位置开始）
+            const mineCell = document.querySelector(`[data-x="${newX}"][data-y="${newY}"]`);
+            if (mineCell) {
+                const pos = window.particleSystem.getElementCenter(mineCell);
+                window.particleSystem.createMineExplosion(pos.x, pos.y);
             }
 
             // 检查是否游戏结束
@@ -640,8 +645,6 @@ class Game {
                 setTimeout(() => {
                     this.restart();
                 }, 2000);
-                this.updateInfo();
-                this.render();
                 return false;
             }
         } else {
@@ -823,23 +826,12 @@ class Game {
                         cell.classList.add('gift');
                         cell.textContent = '🧧';
                     } else if (cellType === TILE_TYPES.MINE) {
-                        // 踩到地雷后才显示
+                        // 已揭示的地雷（被踩过的）显示地雷图标
+                        cell.classList.add('mine');
+                        cell.textContent = '💣';
+                        // 如果玩家在地雷上，添加额外的样式
                         if (isPlayerPos) {
-                            cell.classList.add('mine');
-                            cell.textContent = '💣';
-                        } else {
-                            // 未踩到的地雷显示为普通空地
-                            cell.classList.add('empty');
-                            if (isOpened) {
-                                cell.classList.add('opened');
-                            }
-                            if (this.shownMineNumbers[y][x]) {
-                                const mineCount = this.calculateMineCount(x, y);
-                                if (mineCount > 0) {
-                                    cell.textContent = mineCount;
-                                    cell.classList.add(`mine-count-${mineCount}`);
-                                }
-                            }
+                            cell.classList.add('player-on-mine');
                         }
                     } else {
                         // 空地显示周围地雷数量（仅显示已标记过的格子）
